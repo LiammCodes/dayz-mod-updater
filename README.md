@@ -1,6 +1,6 @@
 # dayz-mod-updater
 
-How it works:
+How it works: 
 The script first starts DayZ (the game itself) which opens the DayZ Launcher. Opening the DayZ launcher will automatically check for Workshop Mod updates. If there is an update, let it complete (you will be able to see status at the bottom of the launcher).
 Once the updates are complete, you can go back to wherever the script is running (I suggest using PowerShell and you'll be prompted to press any key to continue, then the script will copy all the Workshop folders (mods) from your DayZ game directory, to your server directory, replacing the mods with the same name that were there before. The script will then start your server.
 
