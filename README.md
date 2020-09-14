@@ -10,7 +10,7 @@ Requirements:
 - DayZ (the game) installed on your server computer (I recommend having a seporate Steam account with a copy of DayZ to run the Server and Game for this script)
 - DayZ Server installed on your server computer
 - Python 3
-- Working start.bat file
+- Working start.bat file (I added mine to the repo which you can use, but make sure you modify it (mods, paths, etc.)
 - A text editor to modify the script, to change the directories to your own (I use VS Code but you can use whatever you want)
 
 Instructions:
