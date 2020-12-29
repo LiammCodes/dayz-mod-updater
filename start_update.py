@@ -3,15 +3,19 @@
 # September 13, 2020
 
 import os
+import sys
 import glob
 import subprocess
+import distutils.log
+import distutils.dir_util
 import distutils.core
+import shutil
 
 # CHANGE TO YOUR OWN 
 # (make sure there are two backslashes at the end of path as shown below)
-dayz_game_path = "C:\Program Files (x86)\Steam\steamapps\common\DayZ\\"
-dayz_server_path = "C:\Program Files (x86)\Steam\Steamapps\common\DayZServer\\"
-bat_filename = "start_mod_server.bat"
+dayz_game_path = "G:\SteamLibrary\steamapps\common\DayZ\\"
+dayz_server_path = "C:\Program Files (x86)\Steam\steamapps\common\DayZServer\\"
+bat_filename = "run.bat"
 
 # opens program
 def open_program(path):
@@ -30,20 +34,31 @@ input("Hit any key once mods complete...")
 close_program(dayz)
 
 # remove old mods from server
-for mod in glob.glob(os.path.join(dayz_server_path, "@*")):
-    distutils.dir_util.remove_tree(mod)
+#for mod in glob.glob(os.path.join(dayz_server_path, "@*")):
+#    distutils.dir_util.remove_tree(mod)
 
 # copy files from !Workshop to server location
 print("Copying mods to server...")
-distutils.dir_util.copy_tree(os.path.join(dayz_game_path, "!Workshop"), dayz_server_path)
+mods = sys.argv[1].split(";")
 
-# cleanup
-os.rmdir(dayz_server_path + "!DO_NOT_CHANGE_FILES_IN_THESE_FOLDERS")
+workshop = os.path.join(dayz_game_path, "!Workshop")
+src_folders = os.listdir(workshop)
+
+for folder_name in src_folders:
+    if folder_name in mods:
+        full_src_folder_name = os.path.join(workshop, folder_name)
+        full_dst_folder_name = os.path.join(dayz_server_path, folder_name)
+        #if os.stat(full_src_folder_name).st_mtime - os.stat(full_dst_folder_name).st_mtime > 1:
+        distutils.log.set_verbosity(distutils.log.DEBUG)
+        distutils.dir_util.copy_tree(full_src_folder_name, full_dst_folder_name,update=1,verbose=1)
+        print("Updated: "+folder_name)
+        
+# distutils.dir_util.copy_tree(os.path.join(dayz_game_path, "!Workshop"), dayz_server_path)
+
 print("Complete")
 
 # start server
 print("Starting server...")
-subprocess.call([bat_filename])
 quit()
 
 
